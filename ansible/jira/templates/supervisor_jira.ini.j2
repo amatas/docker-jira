@@ -1,0 +1,8 @@
+[program:jira]
+command=/opt/jira/bin/start-jira.sh -fg
+user={{ jira_username }}
+directory={{ jira_install_dir }}
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0

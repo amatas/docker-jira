@@ -1,0 +1,83 @@
+---
+- name: Ensure the JIRA group exists
+  group:
+    name: "{{ jira_groupname }}"
+    state: present
+
+- name: Ensure the JIRA user account exists
+  user:
+    name: "{{ jira_username }}"
+    comment: "JIRA User"
+    group: "{{ jira_groupname }}"
+    shell: /bin/bash
+    home: "{{ jira_home_dir }}"
+
+- name: Ensure JIRA home directory exists
+  file:
+    path: "{{ jira_home_dir }}"
+    state: directory
+    mode: 0755
+    owner: "{{ jira_username }}"
+    group: "{{ jira_groupname }}"
+
+# TODO use the MD5 checksum provided by Atlassian
+# https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-6.4.tar.gz.md5
+- name: Download the JIRA standalone tar archive
+  get_url:
+    url: "{{ jira_download_url }}"
+    dest: "/tmp/{{ jira_tar_archive }}"
+    sha256sum: "{{ jira_tar_archive_sha256sum }}"
+
+- name: Ensure tar is available
+  yum:
+    name: tar
+    state: present
+
+- name: Extract downloaded JIRA tar archive
+  unarchive:
+    src: "/tmp/{{ jira_tar_archive }}"
+    dest: /opt
+    copy: no
+
+- name: Ensure extracted directory is owned by JIRA user
+  file:
+    path: "/opt/atlassian-jira-{{ jira_version }}-standalone"
+    owner: "{{ jira_username }}"
+    group: "{{ jira_groupname }}"
+    state: directory
+    recurse: yes
+  
+- name: Create a symlink pointing to extracted JIRA directory
+  file:
+    src: "/opt/atlassian-jira-{{ jira_version }}-standalone"
+    dest: "{{ jira_install_dir }}"
+    state: link
+    owner: "{{ jira_username }}"
+    group: "{{ jira_groupname }}"
+
+- name: Ensure tar is uninstalled
+  yum:
+    name: tar
+    state: absent
+
+- name: Configure JIRA to point to its home directory
+  lineinfile:
+    dest: /opt/jira/atlassian-jira/WEB-INF/classes/jira-application.properties
+    regexp: ^jira.home
+    line: jira.home = {{ jira_home_dir }}
+
+# TODO disable all extra JIRA logging, like access logs
+  
+- name: Ensure Supervisor config for JIRA exists
+  template:
+    src: supervisor_jira.ini.j2
+    dest: /etc/supervisord.d/jira.ini
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Ensure downloaded JIRA tar archive is removed
+  file:
+    path: "/tmp/{{ jira_tar_archive }}"
+    state: absent
+  

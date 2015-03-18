@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  user: root
+
+  vars:
+    jira_version: "{{ lookup('env','APP_VERSION') }}"
+
+  roles:
+    - jira

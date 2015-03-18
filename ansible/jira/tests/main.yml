@@ -1,0 +1,32 @@
+---
+- name: Ensure Supervisord will start JIRA as a background process
+  lineinfile:
+    dest: /etc/supervisord.conf
+    regexp: ^nodaemon=true
+    state: absent
+
+- name: Start Supervisord and JIRA
+  shell: supervisord -c /etc/supervisord.conf
+
+- name: Delay tests for 5 minutes to give JIRA time to finish initializing
+  wait_for:
+    host: 127.0.0.1
+    port: "{{ jira_tcp_port }}"
+    delay: 300
+    state: present
+    timeout: 120
+
+- name: Test a JIRA endpoint for the presence of a requested string
+  uri:
+    url: "http://127.0.0.1:{{ jira_tcp_port }}{{ jira_test_http_endpoint }}"
+    status_code: "{{ jira_test_http_status_code }}"
+    follow_redirects: all
+    return_content: yes
+    timeout: 120
+  register: webpage
+
+- name: Fail if requested string is not found
+  fail:
+    msg: 'JIRA is not configured properly'
+  when: "'Welcome To Your JIRA Setup' not in webpage.content"
+    

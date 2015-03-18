@@ -1,0 +1,24 @@
+---
+# Lowercase and separated using dashes
+APP_NAME: jira
+
+# Application's version, also used to apply a Docker tag
+APP_VERSION: 6.3.15
+
+# Exposed port that the application wants to use to serve requests
+APP_TCP_PORT: 8080
+
+# Application's image name, also used to specify the Docker repository's name
+APP_DOCKER_IMAGE: inclusivedesign/jira
+
+# Application's base image
+APP_DOCKER_BASE_IMAGE: inclusivedesign/java
+
+# HTTP endpoint that should be reached to confirm the application is working
+APP_TEST_HTTP_ENDPOINT: /
+
+# HTTP status code that should be returned to confirm the application is working
+APP_TEST_HTTP_STATUS_CODE: 200
+
+# String that should be located within the HTML <body> element 
+APP_TEST_STRING: Welcome To Your JIRA Setup
