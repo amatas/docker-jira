@@ -8,25 +8,31 @@
 - name: Start Supervisord and JIRA
   shell: supervisord -c /etc/supervisord.conf
 
-- name: Delay tests for 5 minutes to give JIRA time to finish initializing
-  wait_for:
-    host: 127.0.0.1
-    port: "{{ jira_tcp_port }}"
-    delay: 300
-    state: present
-    timeout: 120
+- name: Pause for 5 minutes to give JIRA time to finish initializing
+  pause:
+    minutes: 5
 
-- name: Test a JIRA endpoint for the presence of a requested string
+# If the following play is removed the actual test after this fails randomly. Tomcat (or JIRA) needs
+# to see this request and then the subsequent one completes without errors.
+- name: Fake request to wake up Tomcat or JIRA
+  uri:
+    url: "http://127.0.0.1:{{ jira_tcp_port }}{{ jira_test_http_endpoint }}"
+    follow_redirects: all
+    timeout: 60
+  ignore_errors: yes
+
+- name: Test a JIRA endpoint and check the result for the presence of a requested string
   uri:
     url: "http://127.0.0.1:{{ jira_tcp_port }}{{ jira_test_http_endpoint }}"
     status_code: "{{ jira_test_http_status_code }}"
     follow_redirects: all
     return_content: yes
-    timeout: 120
+    timeout: 60
   register: webpage
 
 - name: Fail if requested string is not found
   fail:
     msg: 'JIRA is not configured properly'
-  when: "'Welcome To Your JIRA Setup' not in webpage.content"
+  when: "'{{ jira_test_string }}' not in webpage.content"
+
     
