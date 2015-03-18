@@ -21,7 +21,7 @@ stop:
 	sudo docker rm -f -v $(APP_NAME); true
 
 
-clean: stop logout
+clean: stop 
 	@echo "Deleting build artifacts..."
 	@echo ""
 
@@ -44,5 +44,5 @@ test:
 	-e APP_TEST_HTTP_STATUS_CODE=$(APP_TEST_HTTP_STATUS_CODE) \
 	-e APP_TEST_STRING="$(APP_TEST_STRING)" \
 	$(APP_DOCKER_IMAGE) \
-	/bin/bash
+	ansible-playbook /srv/ansible/test.yml
 
