@@ -3,7 +3,7 @@
 APP_NAME: jira
 
 # Application's version, also used to apply a Docker tag
-APP_VERSION: 6.3.15
+APP_VERSION: 6.4
 
 # Exposed port that the application wants to use to serve requests
 APP_TCP_PORT: 8080
@@ -21,4 +21,4 @@ APP_TEST_HTTP_ENDPOINT: /
 APP_TEST_HTTP_STATUS_CODE: 200
 
 # String that should be located within the HTML <body> element 
-APP_TEST_STRING: Welcome To Your JIRA Setup
+APP_TEST_STRING: Set Up Application Properties
