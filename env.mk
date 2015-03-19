@@ -1,3 +1,8 @@
+#EXECUTABLES = ls shyaml
+#K := $(foreach exec,$(EXECUTABLES), \
+#	$(if $(shell type $(exec))," is ",$(error "No $(exec) in PATH)))
+
+
 export APP_NAME := $(shell cat app.yml | shyaml get-value APP_NAME)
 export APP_VERSION := $(shell cat app.yml | shyaml get-value APP_VERSION)
 export APP_TCP_PORT := $(shell cat app.yml | shyaml get-value APP_TCP_PORT)
