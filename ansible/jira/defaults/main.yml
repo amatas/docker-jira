@@ -1,20 +1,14 @@
 ---
-jira_version: ""
-
 jira_tar_archive: "atlassian-jira-{{ jira_version }}.tar.gz"
-
-# TODO use the MD5 checksum provided by Atlassian
-# https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-6.4.tar.gz.md5
-jira_tar_archive_sha256sum: "056553ec88cdeeefec73a6692d270a21b9b395af63a5c1ad9865752928dcec2c"
 
 jira_download_url: "http://www.atlassian.com/software/jira/downloads/binary/{{ jira_tar_archive }}"
 
-jira_groupname: "jira"
+jira_groupname: jira
 
-jira_username: "jira"
+jira_username: jira
 
-jira_install_dir: "/opt/jira"
+jira_install_dir: /opt/jira
 
-jira_home_dir: "/opt/jira-home"
+jira_home_dir: /opt/jira-home
 
 

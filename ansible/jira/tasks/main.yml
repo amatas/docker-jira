@@ -20,13 +20,30 @@
     owner: "{{ jira_username }}"
     group: "{{ jira_groupname }}"
 
-# TODO use the MD5 checksum provided by Atlassian
-# https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-6.4.tar.gz.md5
 - name: Download the JIRA standalone tar archive
   get_url:
     url: "{{ jira_download_url }}"
     dest: "/tmp/{{ jira_tar_archive }}"
-    sha256sum: "{{ jira_tar_archive_sha256sum }}"
+
+- name: Compute the MD5 checksum of the tar archive
+  stat:
+    path: "/tmp/{{ jira_tar_archive }}"
+    get_md5: True
+  register: jira_computed_tar_archive_md5
+
+- name: Download the tar archive MD5 checksum
+  get_url:
+    url: "{{ jira_download_url }}.md5"
+    dest: "/tmp/{{ jira_tar_archive }}.md5"
+
+- name: Store the official MD5 checksum file content as a variable
+  command: /usr/bin/cat /tmp/{{ jira_tar_archive }}.md5
+  register: jira_official_tar_archive_md5
+
+- name: Fail if computed checksum does not match the official one
+  fail:
+    msg: 'Computed MD5 checksum does not match official one'
+  when: jira_computed_tar_archive_md5.stat.md5 != jira_official_tar_archive_md5.stdout
 
 - name: Ensure tar is available
   yum:
