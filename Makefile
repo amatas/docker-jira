@@ -2,6 +2,15 @@
 # targets and the Dockerfile
 include env.mk
 
+all:
+	@echo "Usage: make [image|stop|clean|test]" 
+	@echo ""
+	@echo "    image   Creates image based on app.yml parameters"
+	@echo "    stop    Stops container"
+	@echo "    clean   Deletes temporary files and related images"
+	@echo "    test    Runs Ansible test.yml playbook inside container"
+	@echo ""
+
 
 image:
 	@echo "Building image..."
