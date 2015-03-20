@@ -5,7 +5,7 @@
   <database-type>postgres72</database-type>
   $SCHEMA
   <jdbc-datasource>
-    <url>jdbc:postgresql://{{ POSTGRESQL_SERVICE_ADDRESS }}:5432/{{ jira_db_name }}</url>
+    <url>jdbc:postgresql://{{ DB_SERVICE_ADDRESS }}:5432/{{ jira_db_name }}</url>
     <driver-class>org.postgresql.Driver</driver-class>
     <username>{{ jira_db_username }}</username>
     <password>{{ jira_db_password }}</password>

@@ -20,7 +20,7 @@ PostgreSQL in the VM should be reachable from containers. Create a JIRA database
 Test the image:
 
 ```
-POSTGRESQL_SERVICE_ADDRESS=<your vagrant box's address> \
+DB_SERVICE_ADDRESS=<your vagrant box's address> \
 APP_DB_NAME=9d617b7 \
 APP_DB_USERNAME=9d617b7 \
 APP_DB_PASSWORD=9d617b7 \

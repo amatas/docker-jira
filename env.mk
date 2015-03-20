@@ -22,6 +22,5 @@ export DOCKER_PASSWORD := $(shell printenv DOCKER_PASSWORD)
 
 export DOCKER_REGISTRY = https://index.docker.io/v1/
 
-# TODO maybe this should be more generic like DB_SERVICE_ADDRESS
-export POSTGRESQL_SERVICE_ADDRESS := $(shell printenv POSTGRESQL_SERVICE_ADDRESS)
+export DB_SERVICE_ADDRESS := $(shell printenv DB_SERVICE_ADDRESS)
 
