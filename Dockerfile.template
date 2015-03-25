@@ -12,10 +12,14 @@ COPY ansible /srv/ansible/
 WORKDIR /srv/ansible
 
 ENV APP_VERSION ${APP_VERSION}
+
 # https://coderwall.com/p/d5zqla/unbuffered-output-with-ansible-in-jenkins
 ENV PYTHONUNBUFFERED 1
 
-RUN ansible-playbook site.yml && \
+RUN yum -y install git && \
+    ansible-galaxy install --force -r requirements.yml && \
+    yum -y autoremove git && \
+    ansible-playbook image.yml && \
     yum clean all 
 
 EXPOSE ${APP_TCP_PORT}

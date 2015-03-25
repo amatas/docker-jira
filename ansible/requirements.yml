@@ -1,0 +1,3 @@
+- src: https://github.com/avtar/ansible-jira
+  version: master
+  name: jira
