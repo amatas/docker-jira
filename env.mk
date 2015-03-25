@@ -15,6 +15,7 @@ export APP_TEST_STRING := $(shell cat app.yml | shyaml get-value APP_TEST_STRING
 export APP_DB_NAME := $(shell printenv APP_DB_NAME)
 export APP_DB_USERNAME := $(shell printenv APP_DB_USERNAME)
 export APP_DB_PASSWORD := $(shell printenv APP_DB_PASSWORD)
+export APP_MEMORY_LIMIT := $(shell printenv APP_MEMORY_LIMIT)
 
 export DOCKER_EMAIL := $(shell printenv DOCKER_EMAIL)
 export DOCKER_USERNAME := $(shell printenv DOCKER_USERNAME)

@@ -24,6 +24,7 @@ DB_SERVICE_ADDRESS=<your vagrant box's address> \
 APP_DB_NAME=9d617b7 \
 APP_DB_USERNAME=9d617b7 \
 APP_DB_PASSWORD=9d617b7 \
+APP_MEMORY_LIMIT=1000 \ 
 make test
 ```
 
