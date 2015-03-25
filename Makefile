@@ -53,5 +53,5 @@ test:
 	-e APP_TEST_HTTP_STATUS_CODE=$(APP_TEST_HTTP_STATUS_CODE) \
 	-e APP_TEST_STRING="$(APP_TEST_STRING)" \
 	$(APP_DOCKER_IMAGE) \
-	ansible-playbook /srv/ansible/test.yml
+	ansible-playbook /srv/ansible/container.yml --tags "deploy,test"
 

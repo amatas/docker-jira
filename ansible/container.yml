@@ -2,9 +2,6 @@
 - hosts: localhost
   user: root
 
-# TODO perhaps we should include app.yml here so that jira_tcp_port, jira_test_http_endpoint,
-# jira_test_http_status_code, and jira_test_string variables can be accessed using that
-# manifest. The remaining are deployment related.
   vars:
     DB_SERVICE_ADDRESS: "{{ lookup('env','DB_SERVICE_ADDRESS') }}"
     jira_db_name: "{{ lookup('env','APP_DB_NAME') }}"
@@ -14,12 +11,7 @@
     jira_test_http_endpoint: "{{ lookup('env','APP_TEST_HTTP_ENDPOINT') }}"
     jira_test_http_status_code: "{{ lookup('env','APP_TEST_HTTP_STATUS_CODE') }}"
     jira_test_string: "{{ lookup('env','APP_TEST_STRING') }}"
+    jira_version: "{{ lookup('env','APP_VERSION') }}"
 
-# TODO this playbook fails if jira/defaults/main.yml isn't included
-  tasks:
-    - include_vars: jira/defaults/main.yml
-
-    - include: jira/tasks/deploy.yml
-
-    - include: jira/tests/main.yml
-
+  roles:
+    - jira
